@@ -1,7 +1,7 @@
 const {getFormData, getIframeData, generateIframeSrc, parseIframePostResult, LoginError, userAgent} = require('./utils');
 const {CourseAPI} = require('./api');
 
-import {request, clearCookies, METHOD} from '../AcornModule'
+import {request, clearCookies, METHOD} from '../modules/RequestModule'
 
 /**
  * Represents Acorn.
