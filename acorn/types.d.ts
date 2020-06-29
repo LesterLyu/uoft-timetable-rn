@@ -30,8 +30,39 @@ declare interface Registration {
     sessionCode: string
 }
 
+declare interface PostAssessment {
+    estimatedProgress: string,
+    postCode: string,
+    postDesignation: 'Program' | 'Focus' | 'Minor' | 'Major' | 'Specialist' | 'UNKNOWN',
+    postTitle: string,
+    postType: string,
+    requirementsSession: string,
+}
+
+declare interface ProgramProgress {
+    date: string,
+    knownFaculty: boolean,
+    lastUpdatedDate: number,
+    postAssessments: [PostAssessment],
+    studentID: string
+}
+
 declare interface RNResponse {
     body: string,
     responseHeaders: {},
     cookies: []
+}
+
+
+declare interface RNRequestOptions {
+    // HTTP Method, default to GET
+    method: number,
+    // Request Body, this can only be a one-level object
+    body: object,
+    // Query String
+    qs: object,
+    //Not supported yet.
+    headers: object,
+    // Parse returned body to json and return ii directly
+    json: boolean
 }

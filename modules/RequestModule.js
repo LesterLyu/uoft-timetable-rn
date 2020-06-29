@@ -1,4 +1,4 @@
-import { NativeModules } from 'react-native';
+import {NativeModules} from 'react-native';
 
 const RequestModule = NativeModules.RequestModule;
 
@@ -32,17 +32,23 @@ const requestModule = RequestModule.request;
  * Notes: React native has trouble to store cookies by fetch,
  * this is why the method is created.
  *
- * @param url {string} Request URL
- * @param {int} [method=0] HTTP Method, default to GET
- * @param {{}} [body] Request Body, this can only be a one-level object
+ * @param {string} url Request URL
+ * @param {RNRequestOptions} options
  * @return Promise<RNResponse>
  */
-export async function request(url, method, body) {
-  if (arguments.length === 1) {
-    return await requestModule(url, METHOD.GET, null);
-  } else if (arguments.length === 2) {
-    return await requestModule(url, method, null);
-  } else {
-    return await requestModule(...arguments);
+export async function request(url, options = {}) {
+  let {method = METHOD.GET, body = null, qs, headers, json} = options;
+  if (qs) {
+    qs = Object.entries(qs).map(([key, val]) => `${key}=${val}`).join("&");
+    url = `${url}?${qs}`;
   }
+  const response = await requestModule(url, method, body);
+
+  // make it like a fetch API
+  response.json = async () => JSON.parse(response.body)
+  response.text = async () => response.body;
+
+  if (json)
+    return JSON.parse(response.body);
+  return response;
 }

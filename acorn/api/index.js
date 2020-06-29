@@ -1,4 +1,7 @@
 
 module.exports = {
-    ...require('./courseAPI')
+    ...require('./courseAPI'),
+    ...require('./academicHistoryAPI'),
+    ...require('./financeAPI'),
+    ...require('./basicAPI')
 };
